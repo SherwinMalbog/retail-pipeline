@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: warehouse
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+      - "CMD-SHELL"
+      - pg_isready -U admin -d warehouse
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
