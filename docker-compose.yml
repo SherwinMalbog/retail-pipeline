@@ -16,6 +16,25 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-
+    
+  redpanda:
+    image: redpandadata/redpanda:v25.2.2
+    command: 
+     - redpanda
+     - start
+     - --overprovisioned
+     - --smp
+     - "1"
+     - --memory
+     - "512M"
+     - --kafka-addr
+     - internal://0.0.0.0:9092,external://0.0.0.0:19092
+     - --advertise-kafka-addr
+     - internal://redpanda:9092,external://localhost:19092
+    ports: 
+      - "19092:19092"
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
 volumes:
   postgres_data:
+  redpanda_data:
